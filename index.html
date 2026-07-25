@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Facturas · +Marka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2430;
+    --ink-soft:#4A5568;
+    --paper:#F6F7F9;
+    --card:#FFFFFF;
+    --border:#E2E5EA;
+    --border-strong:#C7CCD4;
+    --amber:#B4700A;
+    --amber-soft:#FDF3E3;
+    --green:#177245;
+    --green-soft:#E9F7EF;
+    --red:#B3261E;
+    --red-soft:#FCEAE9;
+    --radius:14px;
+    --shadow: 0 1px 2px rgba(27,36,48,0.04), 0 8px 24px -12px rgba(27,36,48,0.14);
+    font-size:16px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(27,36,48,0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding: 32px 16px 64px;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:560px;
+  }
+
+  /* ---------- header ---------- */
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .brand-mark{
+    width:34px;height:34px;border-radius:9px;
+    background:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:800;font-size:15px;letter-spacing:-0.5px;
+    flex-shrink:0;
+  }
+  .brand-text{
+    display:flex;flex-direction:column;line-height:1.1;
+  }
+  .brand-text b{font-size:15px;font-weight:700;}
+  .brand-text span{font-size:12px;color:var(--ink-soft);}
+
+  /* ---------- ticket card ---------- */
+  .ticket{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    border:1px solid var(--border);
+    overflow:hidden;
+  }
+
+  .ticket-head{
+    padding:22px 24px 18px;
+    border-bottom:1.5px dashed var(--border-strong);
+    position:relative;
+  }
+  .ticket-head::before,
+  .ticket-head::after{
+    content:"";
+    position:absolute;
+    bottom:-10px;
+    width:20px;height:20px;
+    background:var(--paper);
+    border-radius:50%;
+    border:1px solid var(--border);
+  }
+  .ticket-head::before{ left:-10px; }
+  .ticket-head::after{ right:-10px; }
+
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--amber);
+    font-weight:700;
+    margin:0 0 6px;
+  }
+  h1{
+    font-size:21px;
+    font-weight:800;
+    margin:0 0 4px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    margin:0;
+  }
+
+  form{ padding:24px; display:flex; flex-direction:column; gap:20px; }
+
+  .field{ display:flex; flex-direction:column; gap:7px; }
+  label{
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  label .req{ color:var(--red); font-weight:700; }
+  .hint{ font-size:11.5px; color:#8A93A1; margin-top:-2px; }
+
+  input[type=text],
+  input[type=date],
+  select{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1.5px solid var(--border);
+    background:#FCFCFD;
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    color:var(--ink);
+    transition:border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    appearance:none;
+    -webkit-appearance:none;
+  }
+  input::placeholder{ color:#A6ACB6; }
+  input:focus, select:focus{
+    outline:none;
+    border-color:var(--ink);
+    box-shadow:0 0 0 3px rgba(27,36,48,0.08);
+    background:#fff;
+  }
+  input.invalid, select.invalid{
+    border-color:var(--red);
+    background:var(--red-soft);
+  }
+  input.valid{
+    border-color:var(--green);
+  }
+
+  #numeroFactura{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:16px;
+    letter-spacing:0.06em;
+  }
+
+  select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231B2430' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    padding-right:36px;
+  }
+
+  .error-msg{
+    font-size:11.5px;
+    color:var(--red);
+    min-height:14px;
+    display:none;
+  }
+  .error-msg.show{ display:block; }
+
+  /* ---------- tipo de gasto chips ---------- */
+  .chip-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:9px 14px;
+    border-radius:99px;
+    border:1.5px solid var(--border-strong);
+    background:#FCFCFD;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .chip input{
+    position:absolute;
+    opacity:0;
+    width:0;height:0;
+  }
+  .chip:hover{ border-color:var(--ink); }
+  .chip:has(input:checked){
+    background:var(--ink);
+    border-color:var(--ink);
+    color:#fff;
+  }
+  .chip:has(input:focus-visible){
+    box-shadow:0 0 0 3px rgba(27,36,48,0.15);
+  }
+  .chip-group.invalid .chip{
+    border-color:var(--red);
+  }
+
+  /* ---------- montos condicionales ---------- */
+  .montos-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .monto-field{
+    display:none;
+    padding:14px 14px 4px;
+    margin:-14px -14px -4px;
+    border-radius:10px;
+    background:var(--amber-soft);
+  }
+  .monto-field.visible{ display:flex; }
+  .monto-field label{ color:var(--amber); }
+  .monto-field input{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    background:#fff;
+  }
+
+  /* ---------- photo capture ---------- */
+  .capture-box{
+    border:1.5px dashed var(--border-strong);
+    border-radius:12px;
+    background:#FCFCFD;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .capture-box.has-image{
+    border-style:solid;
+    border-color:var(--green);
+    background:var(--green-soft);
+  }
+  .capture-box.invalid{
+    border-color:var(--red);
+    background:var(--red-soft);
+  }
+
+  .capture-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+
+  .btn-capture{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:11px 12px;
+    border-radius:9px;
+    border:1.5px solid var(--border-strong);
+    background:#fff;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    color:var(--ink);
+    cursor:pointer;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .btn-capture:hover{ background:#F1F2F4; border-color:var(--ink); }
+  .btn-capture svg{ width:16px;height:16px;flex-shrink:0; }
+
+  input[type=file]{ display:none; }
+
+  .preview{
+    display:none;
+    position:relative;
+    border-radius:9px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    background:#fff;
+  }
+  .preview.show{ display:block; }
+  .preview img{
+    width:100%;
+    max-height:220px;
+    object-fit:contain;
+    display:block;
+    background:#F1F2F4;
+  }
+  .preview .remove-btn{
+    position:absolute;
+    top:8px;right:8px;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:rgba(27,36,48,0.75);
+    color:#fff;
+    border:none;
+    font-size:14px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    line-height:1;
+  }
+  .preview .file-tag{
+    position:absolute;
+    bottom:8px;left:8px;
+    background:rgba(23,114,69,0.92);
+    color:#fff;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.04em;
+    padding:3px 8px;
+    border-radius:99px;
+    text-transform:uppercase;
+  }
+
+  /* ---------- submit ---------- */
+  .submit-btn{
+    margin-top:4px;
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:none;
+    background:var(--ink);
+    color:#fff;
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:14.5px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .submit-btn:hover{ background:#2C3A4D; }
+  .submit-btn:active{ transform:scale(0.99); }
+  .submit-btn:disabled{
+    background:#AEB4BD;
+    cursor:not-allowed;
+  }
+  .spinner{
+    width:15px;height:15px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,0.4);
+    border-top-color:#fff;
+    animation:spin .7s linear infinite;
+    display:none;
+  }
+  .submit-btn.loading .spinner{ display:inline-block; }
+  .submit-btn.loading .btn-label{ display:none; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .footnote{
+    text-align:center;
+    font-size:11.5px;
+    color:#9AA1AC;
+    margin-top:16px;
+  }
+
+  /* ---------- status banner ---------- */
+  .banner{
+    display:none;
+    align-items:flex-start;
+    gap:10px;
+    padding:13px 14px;
+    border-radius:10px;
+    font-size:13px;
+    font-weight:500;
+    line-height:1.4;
+  }
+  .banner.show{ display:flex; }
+  .banner.success{ background:var(--green-soft); color:var(--green); border:1px solid #BEE3CE; }
+  .banner.error{ background:var(--red-soft); color:var(--red); border:1px solid #F2C4C1; }
+  .banner svg{ flex-shrink:0; margin-top:1px; }
+
+  /* success overlay */
+  .success-card{
+    display:none;
+    text-align:center;
+    padding:40px 24px;
+  }
+  .success-card.show{ display:block; }
+  .success-icon{
+    width:56px;height:56px;
+    border-radius:50%;
+    background:var(--green-soft);
+    color:var(--green);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 16px;
+  }
+  .success-card h2{ font-size:18px; margin:0 0 6px; }
+  .success-card p{ font-size:13.5px; color:var(--ink-soft); margin:0 0 20px; }
+  .success-card .folio{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    background:var(--amber-soft);
+    color:var(--amber);
+    display:inline-block;
+    padding:6px 14px;
+    border-radius:8px;
+    font-size:14px;
+    margin-bottom:20px;
+    letter-spacing:0.04em;
+  }
+  .new-btn{
+    padding:11px 20px;
+    border-radius:9px;
+    border:1.5px solid var(--border-strong);
+    background:#fff;
+    font-weight:600;
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  .new-btn:hover{ background:#F1F2F4; }
+
+  @media (max-width:420px){
+    .capture-row{ flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="brand">
+    <div class="brand-mark">+M</div>
+    <div class="brand-text">
+      <b>+Marka</b>
+      <span>Operaciones · Business Intelligence</span>
+    </div>
+  </div>
+
+  <div class="ticket">
+
+    <div class="ticket-head">
+      <p class="eyebrow">Registro de comprobante</p>
+      <h1>Carga de Factura</h1>
+      <p class="sub">Completá los datos y adjuntá las fotos del comprobante. Se guardará automáticamente en Drive.</p>
+    </div>
+
+    <form id="facturaForm" novalidate>
+
+      <div id="statusBanner" class="banner error">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.5v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11" r="0.8" fill="currentColor"/></svg>
+        <span id="statusText"></span>
+      </div>
+
+      <!-- Tipo de Gasto (checklist) -->
+      <div class="field">
+        <label>Tipo de Gasto <span class="req">*</span></label>
+        <div class="chip-group" id="tipoGastoGroup">
+          <label class="chip"><input type="radio" name="tipoGasto" value="CRM"><span>CRM</span></label>
+          <label class="chip"><input type="radio" name="tipoGasto" value="PRINTING"><span>PRINTING</span></label>
+          <label class="chip"><input type="radio" name="tipoGasto" value="GASTO 1"><span>GASTO 1</span></label>
+          <label class="chip"><input type="radio" name="tipoGasto" value="GASTO 2"><span>GASTO 2</span></label>
+          <label class="chip"><input type="radio" name="tipoGasto" value="GASTO 3"><span>GASTO 3</span></label>
+        </div>
+        <span class="hint">Define en qué carpeta de Drive se guardarán las fotos.</span>
+        <span class="error-msg" id="err-tipoGasto">Seleccioná el tipo de gasto.</span>
+      </div>
+
+      <!-- Numero de Factura -->
+      <div class="field">
+        <label for="numeroFactura">Número de Factura <span class="req">*</span></label>
+        <input type="text" id="numeroFactura" name="numeroFactura" placeholder="001-001-00000018" maxlength="15" inputmode="numeric" required>
+        <span class="hint">Formato: 3 dígitos - 3 dígitos - 8 dígitos</span>
+        <span class="error-msg" id="err-numeroFactura">Formato inválido. Usá: 000-000-00000000</span>
+      </div>
+
+      <!-- Fecha -->
+      <div class="field">
+        <label for="fechaFactura">Fecha de la Factura <span class="req">*</span></label>
+        <input type="date" id="fechaFactura" name="fechaFactura" required>
+        <span class="error-msg" id="err-fechaFactura">Seleccioná una fecha.</span>
+      </div>
+
+      <!-- Razon Social -->
+      <div class="field">
+        <label for="razonSocial">Razón Social <span class="req">*</span></label>
+        <input type="text" id="razonSocial" name="razonSocial" placeholder="NOMBRE DE LA EMPRESA S.A." required>
+        <span class="error-msg" id="err-razonSocial">Ingresá la razón social.</span>
+      </div>
+
+      <!-- Tipo Impuesto -->
+      <div class="field">
+        <label for="tipoImpuesto">Tipo de Impuesto <span class="req">*</span></label>
+        <select id="tipoImpuesto" name="tipoImpuesto" required>
+          <option value="" disabled selected>Seleccioná una opción</option>
+          <option value="Exenta">Exenta</option>
+          <option value="IVA 10%">IVA 10%</option>
+          <option value="IVA 5%">IVA 5%</option>
+          <option value="Combinado">Combinado</option>
+        </select>
+        <span class="error-msg" id="err-tipoImpuesto">Seleccioná el tipo de impuesto.</span>
+      </div>
+
+      <!-- Montos (se despliegan según el Tipo de Impuesto) -->
+      <div class="montos-wrap" id="montosWrap">
+
+        <div class="field monto-field" id="field-montoExenta" data-monto>
+          <label for="montoExenta">Monto Exento (Gs.) <span class="req">*</span></label>
+          <input type="text" id="montoExenta" name="montoExenta" placeholder="0" inputmode="numeric">
+          <span class="error-msg" id="err-montoExenta">Ingresá el monto exento.</span>
+        </div>
+
+        <div class="field monto-field" id="field-montoIva10" data-monto>
+          <label for="montoIva10">Monto Gravado IVA 10% (Gs.) <span class="req">*</span></label>
+          <input type="text" id="montoIva10" name="montoIva10" placeholder="0" inputmode="numeric">
+          <span class="error-msg" id="err-montoIva10">Ingresá el monto gravado al 10%.</span>
+        </div>
+
+        <div class="field monto-field" id="field-montoIva5" data-monto>
+          <label for="montoIva5">Monto Gravado IVA 5% (Gs.) <span class="req">*</span></label>
+          <input type="text" id="montoIva5" name="montoIva5" placeholder="0" inputmode="numeric">
+          <span class="error-msg" id="err-montoIva5">Ingresá el monto gravado al 5%.</span>
+        </div>
+
+      </div>
+
+      <!-- Foto Factura -->
+      <div class="field">
+        <label>Foto de la Factura <span class="req">*</span></label>
+        <div class="capture-box" id="box-fotoFactura">
+          <div class="capture-row">
+            <button type="button" class="btn-capture" id="btn-cam-factura">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l2-2h6l2 2h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>
+              Tomar foto
+            </button>
+            <button type="button" class="btn-capture" id="btn-file-factura">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>
+              Subir archivo
+            </button>
+          </div>
+          <input type="file" id="input-cam-factura" accept="image/*" capture="environment">
+          <input type="file" id="input-file-factura" accept="image/*">
+          <div class="preview" id="preview-fotoFactura">
+            <img id="img-fotoFactura" src="" alt="Vista previa factura">
+            <span class="file-tag">Cargada</span>
+            <button type="button" class="remove-btn" data-target="fotoFactura">✕</button>
+          </div>
+        </div>
+        <span class="error-msg" id="err-fotoFactura">Adjuntá la foto de la factura.</span>
+      </div>
+
+      <!-- Foto Evidencia -->
+      <div class="field">
+        <label>Foto de la Evidencia <span class="req">*</span></label>
+        <div class="capture-box" id="box-fotoEvidencia">
+          <div class="capture-row">
+            <button type="button" class="btn-capture" id="btn-cam-evidencia">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l2-2h6l2 2h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>
+              Tomar foto
+            </button>
+            <button type="button" class="btn-capture" id="btn-file-evidencia">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>
+              Subir archivo
+            </button>
+          </div>
+          <input type="file" id="input-cam-evidencia" accept="image/*" capture="environment">
+          <input type="file" id="input-file-evidencia" accept="image/*">
+          <div class="preview" id="preview-fotoEvidencia">
+            <img id="img-fotoEvidencia" src="" alt="Vista previa evidencia">
+            <span class="file-tag">Cargada</span>
+            <button type="button" class="remove-btn" data-target="fotoEvidencia">✕</button>
+          </div>
+        </div>
+        <span class="error-msg" id="err-fotoEvidencia">Adjuntá la foto de la evidencia.</span>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <span class="btn-label">Enviar factura</span>
+        <span class="spinner"></span>
+      </button>
+
+    </form>
+
+    <div class="success-card" id="successCard">
+      <div class="success-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12l5 5L20 6"/></svg>
+      </div>
+      <h2>Factura registrada</h2>
+      <p>Las imágenes se guardaron correctamente en la carpeta de Drive.</p>
+      <div class="folio" id="folioDisplay">001-001-00000018</div>
+      <br>
+      <button type="button" class="new-btn" id="newBtn">Cargar otra factura</button>
+    </div>
+
+  </div>
+
+  <p class="footnote">+Marka · Registro interno de facturas</p>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURACIÓN
+   Reemplazá esta URL por la de tu Web App de Apps Script
+   (Implementar > Nueva implementación > Aplicación web)
+========================================================= */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwV0AyHqAie3v-xBp3wGRKOJQtWZjBxDuHfzQoWzFW5bfP_IrZWFUUFmeN8d3_7UOzw/exec";
+
+const form = document.getElementById('facturaForm');
+const submitBtn = document.getElementById('submitBtn');
+const statusBanner = document.getElementById('statusBanner');
+const statusText = document.getElementById('statusText');
+const successCard = document.getElementById('successCard');
+const folioDisplay = document.getElementById('folioDisplay');
+
+const images = { fotoFactura: null, fotoEvidencia: null };
+
+/* ---------- Máscara Número de Factura: 000-000-00000000 ---------- */
+const numeroInput = document.getElementById('numeroFactura');
+numeroInput.addEventListener('input', () => {
+  let digits = numeroInput.value.replace(/\D/g, '').slice(0, 14);
+  let out = '';
+  if (digits.length > 0) out += digits.slice(0, 3);
+  if (digits.length > 3) out += '-' + digits.slice(3, 6);
+  if (digits.length > 6) out += '-' + digits.slice(6, 14);
+  numeroInput.value = out;
+  validateField('numeroFactura');
+});
+
+/* ---------- Razón Social a mayúsculas en tiempo real ---------- */
+const razonInput = document.getElementById('razonSocial');
+razonInput.addEventListener('input', () => {
+  const pos = razonInput.selectionStart;
+  razonInput.value = razonInput.value.toUpperCase();
+  razonInput.setSelectionRange(pos, pos);
+  validateField('razonSocial');
+});
+
+/* ---------- Captura / carga de imágenes ---------- */
+function setupCapture(key, camBtnId, fileBtnId, camInputId, fileInputId){
+  const camBtn = document.getElementById(camBtnId);
+  const fileBtn = document.getElementById(fileBtnId);
+  const camInput = document.getElementById(camInputId);
+  const fileInput = document.getElementById(fileInputId);
+
+  camBtn.addEventListener('click', () => camInput.click());
+  fileBtn.addEventListener('click', () => fileInput.click());
+  camInput.addEventListener('change', (e) => handleImage(key, e.target.files[0]));
+  fileInput.addEventListener('change', (e) => handleImage(key, e.target.files[0]));
+}
+
+function handleImage(key, file){
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    images[key] = { dataUrl: e.target.result, name: file.name, type: file.type };
+    document.getElementById('img-' + key).src = e.target.result;
+    document.getElementById('preview-' + key).classList.add('show');
+    document.getElementById('box-' + key).classList.add('has-image');
+    document.getElementById('box-' + key).classList.remove('invalid');
+    document.getElementById('err-' + key).classList.remove('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+document.querySelectorAll('.remove-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.target;
+    images[key] = null;
+    document.getElementById('preview-' + key).classList.remove('show');
+    document.getElementById('box-' + key).classList.remove('has-image');
+    document.getElementById('input-cam-' + key.replace('foto','').toLowerCase()); // no-op safety
+    document.getElementById('img-' + key).src = '';
+  });
+});
+
+setupCapture('fotoFactura', 'btn-cam-factura', 'btn-file-factura', 'input-cam-factura', 'input-file-factura');
+setupCapture('fotoEvidencia', 'btn-cam-evidencia', 'btn-file-evidencia', 'input-cam-evidencia', 'input-file-evidencia');
+
+/* ---------- Validación ---------- */
+const NUM_FACTURA_REGEX = /^\d{3}-\d{3}-\d{8}$/;
+
+function validateField(id){
+  const el = document.getElementById(id);
+  const errEl = document.getElementById('err-' + id);
+  let valid = true;
+
+  if (id === 'numeroFactura') valid = NUM_FACTURA_REGEX.test(el.value.trim());
+  if (id === 'fechaFactura') valid = !!el.value;
+  if (id === 'razonSocial') valid = el.value.trim().length > 0;
+  if (id === 'tipoImpuesto') valid = !!el.value;
+
+  el.classList.toggle('invalid', !valid);
+  el.classList.toggle('valid', valid && el.value);
+  if (errEl) errEl.classList.toggle('show', !valid);
+  return valid;
+}
+
+['fechaFactura','tipoImpuesto'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => validateField(id));
+});
+
+/* ---------- Montos condicionales según Tipo de Impuesto ---------- */
+const MONTOS_POR_IMPUESTO = {
+  'Exenta': ['montoExenta'],
+  'IVA 10%': ['montoIva10'],
+  'IVA 5%': ['montoIva5'],
+  'Combinado': ['montoExenta', 'montoIva10', 'montoIva5']
+};
+const TODOS_LOS_MONTOS = ['montoExenta', 'montoIva10', 'montoIva5'];
+
+const tipoImpuestoSelect = document.getElementById('tipoImpuesto');
+tipoImpuestoSelect.addEventListener('change', updateMontosVisibility);
+
+function updateMontosVisibility(){
+  const activos = MONTOS_POR_IMPUESTO[tipoImpuestoSelect.value] || [];
+  TODOS_LOS_MONTOS.forEach(id => {
+    const fieldEl = document.getElementById('field-' + id);
+    const inputEl = document.getElementById(id);
+    const isActive = activos.includes(id);
+    fieldEl.classList.toggle('visible', isActive);
+    if (!isActive) {
+      inputEl.value = '';
+      inputEl.classList.remove('invalid', 'valid');
+      document.getElementById('err-' + id).classList.remove('show');
+    }
+  });
+}
+
+/* Formato con separador de miles (Gs.) mientras se escribe */
+TODOS_LOS_MONTOS.forEach(id => {
+  const input = document.getElementById(id);
+  input.addEventListener('input', () => {
+    const digits = input.value.replace(/\D/g, '');
+    input.value = digits ? Number(digits).toLocaleString('es-PY') : '';
+    validateMonto(id);
+  });
+});
+
+function validateMonto(id){
+  const fieldEl = document.getElementById('field-' + id);
+  if (!fieldEl.classList.contains('visible')) return true; // no aplica
+  const input = document.getElementById(id);
+  const errEl = document.getElementById('err-' + id);
+  const rawValue = Number(input.value.replace(/\D/g, ''));
+  const valid = rawValue > 0;
+  input.classList.toggle('invalid', !valid);
+  input.classList.toggle('valid', valid);
+  errEl.classList.toggle('show', !valid);
+  return valid;
+}
+
+function validateAllMontos(){
+  const activos = MONTOS_POR_IMPUESTO[tipoImpuestoSelect.value] || [];
+  return activos.every(id => validateMonto(id));
+}
+
+function getMontos(){
+  const activos = MONTOS_POR_IMPUESTO[tipoImpuestoSelect.value] || [];
+  const result = {};
+  activos.forEach(id => {
+    result[id] = Number(document.getElementById(id).value.replace(/\D/g, '')) || 0;
+  });
+  return result;
+}
+
+function getTipoGasto(){
+  const checked = document.querySelector('input[name="tipoGasto"]:checked');
+  return checked ? checked.value : '';
+}
+
+function validateTipoGasto(){
+  const valid = !!getTipoGasto();
+  document.getElementById('tipoGastoGroup').classList.toggle('invalid', !valid);
+  document.getElementById('err-tipoGasto').classList.toggle('show', !valid);
+  return valid;
+}
+
+document.querySelectorAll('input[name="tipoGasto"]').forEach(el => {
+  el.addEventListener('change', validateTipoGasto);
+});
+
+function validateImage(key){
+  const valid = !!images[key];
+  document.getElementById('box-' + key).classList.toggle('invalid', !valid);
+  document.getElementById('err-' + key).classList.toggle('show', !valid);
+  return valid;
+}
+
+function showBanner(type, message){
+  statusBanner.className = 'banner ' + type + ' show';
+  statusText.textContent = message;
+}
+function hideBanner(){
+  statusBanner.className = 'banner';
+}
+
+/* ---------- Envío ---------- */
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  hideBanner();
+
+  const validGasto = validateTipoGasto();
+  const validNumero = validateField('numeroFactura');
+  const validFecha = validateField('fechaFactura');
+  const validRazon = validateField('razonSocial');
+  const validImpuesto = validateField('tipoImpuesto');
+  const validMontos = validateAllMontos();
+  const validFactura = validateImage('fotoFactura');
+  const validEvidencia = validateImage('fotoEvidencia');
+
+  if (!(validGasto && validNumero && validFecha && validRazon && validImpuesto && validMontos && validFactura && validEvidencia)) {
+    showBanner('error', 'Revisá los campos marcados en rojo antes de enviar.');
+    return;
+  }
+
+  if (SCRIPT_URL.includes('TU_ID_DE_IMPLEMENTACION')) {
+    showBanner('error', 'Falta configurar SCRIPT_URL con la URL de tu Web App de Apps Script.');
+    return;
+  }
+
+  const montos = getMontos();
+  const payload = {
+    tipoGasto: getTipoGasto(),
+    numeroFactura: numeroInput.value.trim(),
+    fechaFactura: document.getElementById('fechaFactura').value,
+    razonSocial: razonInput.value.trim(),
+    tipoImpuesto: document.getElementById('tipoImpuesto').value,
+    montoExenta: montos.montoExenta || 0,
+    montoIva10: montos.montoIva10 || 0,
+    montoIva5: montos.montoIva5 || 0,
+    fotoFactura: images.fotoFactura,
+    fotoEvidencia: images.fotoEvidencia
+  };
+
+  submitBtn.disabled = true;
+  submitBtn.classList.add('loading');
+
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      // text/plain avoids a CORS preflight against Apps Script
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (data.status === 'ok') {
+      form.style.display = 'none';
+      folioDisplay.textContent = payload.numeroFactura;
+      successCard.classList.add('show');
+    } else {
+      showBanner('error', data.message || 'Ocurrió un error al guardar la factura.');
+    }
+  } catch (err) {
+    showBanner('error', 'No se pudo conectar con el servidor. Intentá nuevamente.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('loading');
+  }
+});
+
+document.getElementById('newBtn').addEventListener('click', () => {
+  form.reset();
+  document.querySelectorAll('input[name="tipoGasto"]').forEach(el => el.checked = false);
+  document.getElementById('tipoGastoGroup').classList.remove('invalid');
+  updateMontosVisibility();
+  images.fotoFactura = null;
+  images.fotoEvidencia = null;
+  ['fotoFactura','fotoEvidencia'].forEach(key => {
+    document.getElementById('preview-' + key).classList.remove('show');
+    document.getElementById('box-' + key).classList.remove('has-image','invalid');
+  });
+  document.querySelectorAll('input,select').forEach(el => el.classList.remove('valid','invalid'));
+  document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('show'));
+  hideBanner();
+  successCard.classList.remove('show');
+  form.style.display = 'flex';
+});
+</script>
+
+</body>
+</html>

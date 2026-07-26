@@ -40,18 +40,9 @@
     padding: 32px 16px 64px;
   }
 
-  .wrap{
-    width:100%;
-    max-width:560px;
-  }
+  .wrap{ width:100%; max-width:560px; }
 
-  /* ---------- header ---------- */
-  .brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:18px;
-  }
+  .brand{ display:flex; align-items:center; gap:10px; margin-bottom:18px; }
   .brand-mark{
     width:34px;height:34px;border-radius:9px;
     background:var(--ink);
@@ -59,13 +50,10 @@
     color:#fff;font-weight:800;font-size:15px;letter-spacing:-0.5px;
     flex-shrink:0;
   }
-  .brand-text{
-    display:flex;flex-direction:column;line-height:1.1;
-  }
+  .brand-text{ display:flex;flex-direction:column;line-height:1.1; }
   .brand-text b{font-size:15px;font-weight:700;}
   .brand-text span{font-size:12px;color:var(--ink-soft);}
 
-  /* ---------- ticket card ---------- */
   .ticket{
     background:var(--card);
     border-radius:var(--radius);
@@ -79,8 +67,7 @@
     border-bottom:1.5px dashed var(--border-strong);
     position:relative;
   }
-  .ticket-head::before,
-  .ticket-head::after{
+  .ticket-head::before, .ticket-head::after{
     content:"";
     position:absolute;
     bottom:-10px;
@@ -101,35 +88,20 @@
     font-weight:700;
     margin:0 0 6px;
   }
-  h1{
-    font-size:21px;
-    font-weight:800;
-    margin:0 0 4px;
-    letter-spacing:-0.01em;
-  }
-  .sub{
-    font-size:13.5px;
-    color:var(--ink-soft);
-    margin:0;
-  }
+  h1{ font-size:21px; font-weight:800; margin:0 0 4px; letter-spacing:-0.01em; }
+  .sub{ font-size:13.5px; color:var(--ink-soft); margin:0; }
 
   form{ padding:24px; display:flex; flex-direction:column; gap:20px; }
 
   .field{ display:flex; flex-direction:column; gap:7px; }
   label{
-    font-size:12.5px;
-    font-weight:600;
-    color:var(--ink);
-    display:flex;
-    align-items:center;
-    gap:6px;
+    font-size:12.5px; font-weight:600; color:var(--ink);
+    display:flex; align-items:center; gap:6px;
   }
   label .req{ color:var(--red); font-weight:700; }
   .hint{ font-size:11.5px; color:#8A93A1; margin-top:-2px; }
 
-  input[type=text],
-  input[type=date],
-  select{
+  input[type=text], input[type=date], select{
     width:100%;
     padding:12px 14px;
     border-radius:10px;
@@ -139,8 +111,7 @@
     font-size:14.5px;
     color:var(--ink);
     transition:border-color .15s ease, box-shadow .15s ease, background .15s ease;
-    appearance:none;
-    -webkit-appearance:none;
+    appearance:none; -webkit-appearance:none;
   }
   input::placeholder{ color:#A6ACB6; }
   input:focus, select:focus{
@@ -149,19 +120,12 @@
     box-shadow:0 0 0 3px rgba(27,36,48,0.08);
     background:#fff;
   }
-  input.invalid, select.invalid{
-    border-color:var(--red);
-    background:var(--red-soft);
-  }
-  input.valid{
-    border-color:var(--green);
-  }
+  input.invalid, select.invalid{ border-color:var(--red); background:var(--red-soft); }
+  input.valid{ border-color:var(--green); }
 
   #numeroFactura{
     font-family:'JetBrains Mono',monospace;
-    font-weight:700;
-    font-size:16px;
-    letter-spacing:0.06em;
+    font-weight:700; font-size:16px; letter-spacing:0.06em;
   }
 
   select{
@@ -171,116 +135,91 @@
     padding-right:36px;
   }
 
-  .error-msg{
-    font-size:11.5px;
-    color:var(--red);
-    min-height:14px;
-    display:none;
-  }
+  .error-msg{ font-size:11.5px; color:var(--red); min-height:14px; display:none; }
   .error-msg.show{ display:block; }
 
-  /* ---------- tipo de gasto chips ---------- */
-  .chip-group{
-    display:flex;
-    flex-wrap:wrap;
+  /* ---------- chips (tipo de gasto) ---------- */
+  .chip-group{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    position:relative; display:flex; align-items:center; gap:6px;
+    padding:9px 14px; border-radius:99px;
+    border:1.5px solid var(--border-strong);
+    background:#FCFCFD; font-size:13px; font-weight:600; color:var(--ink-soft);
+    cursor:pointer; transition:border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .chip input{ position:absolute; opacity:0; width:0; height:0; }
+  .chip:hover{ border-color:var(--ink); }
+  .chip:has(input:checked){ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .chip:has(input:focus-visible){ box-shadow:0 0 0 3px rgba(27,36,48,0.15); }
+  .chip-group.invalid .chip{ border-color:var(--red); }
+
+  /* ---------- modo (segmented control) ---------- */
+  .modo-group{
+    display:grid;
+    grid-template-columns:1fr 1fr;
     gap:8px;
   }
-  .chip{
-    position:relative;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    padding:9px 14px;
-    border-radius:99px;
+  .modo-option{
+    display:flex; flex-direction:column; gap:2px;
+    padding:12px 14px; border-radius:12px;
     border:1.5px solid var(--border-strong);
-    background:#FCFCFD;
-    font-size:13px;
-    font-weight:600;
-    color:var(--ink-soft);
-    cursor:pointer;
+    background:#FCFCFD; cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .modo-option input{ position:absolute; opacity:0; width:0; height:0; }
+  .modo-option-label{ font-size:13px; font-weight:700; color:var(--ink); }
+  .modo-option-hint{ font-size:11px; color:var(--ink-soft); }
+  .modo-option:has(input:checked){
+    border-color:var(--ink); background:#F1F2F4;
+  }
+  .modo-option:has(input:checked) .modo-option-label{ color:var(--ink); }
+
+  /* ---------- exenta iva toggle ---------- */
+  .toggle-group{ display:flex; gap:8px; }
+  .toggle-btn{
+    flex:1; text-align:center;
+    padding:11px 12px; border-radius:10px;
+    border:1.5px solid var(--border-strong);
+    background:#FCFCFD; font-weight:700; font-size:13.5px; color:var(--ink-soft);
+    cursor:pointer; position:relative;
     transition:border-color .15s ease, background .15s ease, color .15s ease;
   }
-  .chip input{
-    position:absolute;
-    opacity:0;
-    width:0;height:0;
-  }
-  .chip:hover{ border-color:var(--ink); }
-  .chip:has(input:checked){
-    background:var(--ink);
-    border-color:var(--ink);
-    color:#fff;
-  }
-  .chip:has(input:focus-visible){
-    box-shadow:0 0 0 3px rgba(27,36,48,0.15);
-  }
-  .chip-group.invalid .chip{
-    border-color:var(--red);
+  .toggle-btn input{ position:absolute; opacity:0; width:0; height:0; }
+  .toggle-btn:has(input:checked){ background:var(--ink); border-color:var(--ink); color:#fff; }
+
+  /* ---------- monto ---------- */
+  #field-monto input{
+    font-family:'JetBrains Mono',monospace; font-weight:700;
   }
 
-  /* ---------- montos condicionales ---------- */
-  .montos-wrap{
-    display:flex;
+  /* ---------- transición de secciones condicionales ---------- */
+  .conditional-section{
+    display:none;
     flex-direction:column;
     gap:20px;
   }
-  .monto-field{
-    display:none;
-    padding:14px 14px 4px;
-    margin:-14px -14px -4px;
-    border-radius:10px;
-    background:var(--amber-soft);
-  }
-  .monto-field.visible{ display:flex; }
-  .monto-field label{ color:var(--amber); }
-  .monto-field input{
-    font-family:'JetBrains Mono',monospace;
-    font-weight:700;
-    background:#fff;
-  }
+  .conditional-section.visible{ display:flex; }
 
-  /* ---------- photo capture ---------- */
+  /* ---------- captura de fotos ---------- */
   .capture-box{
     border:1.5px dashed var(--border-strong);
     border-radius:12px;
     background:#FCFCFD;
     padding:16px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+    display:flex; flex-direction:column; gap:12px;
     transition:border-color .15s ease, background .15s ease;
   }
-  .capture-box.has-image{
-    border-style:solid;
-    border-color:var(--green);
-    background:var(--green-soft);
-  }
-  .capture-box.invalid{
-    border-color:var(--red);
-    background:var(--red-soft);
-  }
+  .capture-box.has-image{ border-style:solid; border-color:var(--green); background:var(--green-soft); }
+  .capture-box.invalid{ border-color:var(--red); background:var(--red-soft); }
 
-  .capture-row{
-    display:flex;
-    gap:10px;
-    align-items:center;
-  }
+  .capture-row{ display:flex; gap:10px; align-items:center; }
 
   .btn-capture{
-    flex:1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:11px 12px;
-    border-radius:9px;
+    flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:11px 12px; border-radius:9px;
     border:1.5px solid var(--border-strong);
-    background:#fff;
-    font-family:'Inter',sans-serif;
-    font-weight:600;
-    font-size:13px;
-    color:var(--ink);
-    cursor:pointer;
+    background:#fff; font-family:'Inter',sans-serif; font-weight:600; font-size:13px;
+    color:var(--ink); cursor:pointer;
     transition:background .15s ease, border-color .15s ease;
   }
   .btn-capture:hover{ background:#F1F2F4; border-color:var(--ink); }
@@ -289,149 +228,75 @@
   input[type=file]{ display:none; }
 
   .preview{
-    display:none;
-    position:relative;
-    border-radius:9px;
-    overflow:hidden;
-    border:1px solid var(--border);
-    background:#fff;
+    display:none; position:relative; border-radius:9px; overflow:hidden;
+    border:1px solid var(--border); background:#fff;
   }
   .preview.show{ display:block; }
   .preview img{
-    width:100%;
-    max-height:220px;
-    object-fit:contain;
-    display:block;
-    background:#F1F2F4;
+    width:100%; max-height:220px; object-fit:contain; display:block; background:#F1F2F4;
   }
   .preview .remove-btn{
-    position:absolute;
-    top:8px;right:8px;
-    width:26px;height:26px;
-    border-radius:50%;
-    background:rgba(27,36,48,0.75);
-    color:#fff;
-    border:none;
-    font-size:14px;
-    cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    line-height:1;
+    position:absolute; top:8px; right:8px; width:26px; height:26px; border-radius:50%;
+    background:rgba(27,36,48,0.75); color:#fff; border:none; font-size:14px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; line-height:1;
   }
   .preview .file-tag{
-    position:absolute;
-    bottom:8px;left:8px;
-    background:rgba(23,114,69,0.92);
-    color:#fff;
-    font-size:10.5px;
-    font-weight:700;
-    letter-spacing:0.04em;
-    padding:3px 8px;
-    border-radius:99px;
-    text-transform:uppercase;
+    position:absolute; bottom:8px; left:8px;
+    background:rgba(23,114,69,0.92); color:#fff; font-size:10.5px; font-weight:700;
+    letter-spacing:0.04em; padding:3px 8px; border-radius:99px; text-transform:uppercase;
   }
 
-  /* ---------- submit ---------- */
   .submit-btn{
-    margin-top:4px;
-    width:100%;
-    padding:14px;
-    border-radius:10px;
-    border:none;
-    background:var(--ink);
-    color:#fff;
-    font-family:'Inter',sans-serif;
-    font-weight:700;
-    font-size:14.5px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
+    margin-top:4px; width:100%; padding:14px; border-radius:10px; border:none;
+    background:var(--ink); color:#fff; font-family:'Inter',sans-serif; font-weight:700; font-size:14.5px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
     transition:background .15s ease, transform .1s ease;
   }
   .submit-btn:hover{ background:#2C3A4D; }
   .submit-btn:active{ transform:scale(0.99); }
-  .submit-btn:disabled{
-    background:#AEB4BD;
-    cursor:not-allowed;
-  }
+  .submit-btn:disabled{ background:#AEB4BD; cursor:not-allowed; }
   .spinner{
-    width:15px;height:15px;
-    border-radius:50%;
-    border:2px solid rgba(255,255,255,0.4);
-    border-top-color:#fff;
-    animation:spin .7s linear infinite;
-    display:none;
+    width:15px;height:15px;border-radius:50%;
+    border:2px solid rgba(255,255,255,0.4); border-top-color:#fff;
+    animation:spin .7s linear infinite; display:none;
   }
   .submit-btn.loading .spinner{ display:inline-block; }
   .submit-btn.loading .btn-label{ display:none; }
   @keyframes spin{ to{ transform:rotate(360deg); } }
 
-  .footnote{
-    text-align:center;
-    font-size:11.5px;
-    color:#9AA1AC;
-    margin-top:16px;
-  }
+  .footnote{ text-align:center; font-size:11.5px; color:#9AA1AC; margin-top:16px; }
 
-  /* ---------- status banner ---------- */
   .banner{
-    display:none;
-    align-items:flex-start;
-    gap:10px;
-    padding:13px 14px;
-    border-radius:10px;
-    font-size:13px;
-    font-weight:500;
-    line-height:1.4;
+    display:none; align-items:flex-start; gap:10px; padding:13px 14px; border-radius:10px;
+    font-size:13px; font-weight:500; line-height:1.4;
   }
   .banner.show{ display:flex; }
   .banner.success{ background:var(--green-soft); color:var(--green); border:1px solid #BEE3CE; }
   .banner.error{ background:var(--red-soft); color:var(--red); border:1px solid #F2C4C1; }
   .banner svg{ flex-shrink:0; margin-top:1px; }
 
-  /* success overlay */
-  .success-card{
-    display:none;
-    text-align:center;
-    padding:40px 24px;
-  }
+  .success-card{ display:none; text-align:center; padding:40px 24px; }
   .success-card.show{ display:block; }
   .success-icon{
-    width:56px;height:56px;
-    border-radius:50%;
-    background:var(--green-soft);
-    color:var(--green);
-    display:flex;align-items:center;justify-content:center;
-    margin:0 auto 16px;
+    width:56px;height:56px;border-radius:50%; background:var(--green-soft); color:var(--green);
+    display:flex;align-items:center;justify-content:center; margin:0 auto 16px;
   }
   .success-card h2{ font-size:18px; margin:0 0 6px; }
   .success-card p{ font-size:13.5px; color:var(--ink-soft); margin:0 0 20px; }
   .success-card .folio{
-    font-family:'JetBrains Mono',monospace;
-    font-weight:700;
-    background:var(--amber-soft);
-    color:var(--amber);
-    display:inline-block;
-    padding:6px 14px;
-    border-radius:8px;
-    font-size:14px;
-    margin-bottom:20px;
-    letter-spacing:0.04em;
+    font-family:'JetBrains Mono',monospace; font-weight:700;
+    background:var(--amber-soft); color:var(--amber); display:inline-block;
+    padding:6px 14px; border-radius:8px; font-size:13px; margin-bottom:20px; letter-spacing:0.02em;
   }
   .new-btn{
-    padding:11px 20px;
-    border-radius:9px;
-    border:1.5px solid var(--border-strong);
-    background:#fff;
-    font-weight:600;
-    font-size:13.5px;
-    cursor:pointer;
+    padding:11px 20px; border-radius:9px; border:1.5px solid var(--border-strong);
+    background:#fff; font-weight:600; font-size:13.5px; cursor:pointer;
   }
   .new-btn:hover{ background:#F1F2F4; }
 
   @media (max-width:420px){
     .capture-row{ flex-direction:column; }
+    .modo-group{ grid-template-columns:1fr; }
   }
 </style>
 </head>
@@ -462,105 +327,121 @@
         <span id="statusText"></span>
       </div>
 
-      <!-- Tipo de Gasto (checklist) -->
+      <!-- Tipo de Gasto -->
       <div class="field">
         <label>Tipo de Gasto <span class="req">*</span></label>
         <div class="chip-group" id="tipoGastoGroup">
           <label class="chip"><input type="radio" name="tipoGasto" value="CRM"><span>CRM</span></label>
-          <label class="chip"><input type="radio" name="tipoGasto" value="PRINTING"><span>PRINTING</span></label>
-          <label class="chip"><input type="radio" name="tipoGasto" value="GASTO 1"><span>GASTO 1</span></label>
-          <label class="chip"><input type="radio" name="tipoGasto" value="GASTO 2"><span>GASTO 2</span></label>
-          <label class="chip"><input type="radio" name="tipoGasto" value="GASTO 3"><span>GASTO 3</span></label>
+          <label class="chip"><input type="radio" name="tipoGasto" value="BTL"><span>BTL</span></label>
+          <label class="chip"><input type="radio" name="tipoGasto" value="SHIPPING"><span>SHIPPING</span></label>
+          <label class="chip"><input type="radio" name="tipoGasto" value="OTHER SERVICES"><span>OTHER SERVICES</span></label>
+          <label class="chip"><input type="radio" name="tipoGasto" value="TRANSPORT"><span>TRANSPORT</span></label>
         </div>
-        <span class="hint">Define en qué carpeta de Drive se guardarán las fotos.</span>
+        <span class="hint">Define en qué carpeta de Drive se guarda todo.</span>
         <span class="error-msg" id="err-tipoGasto">Seleccioná el tipo de gasto.</span>
       </div>
 
-      <!-- Numero de Factura -->
+      <!-- Modo: datos completos vs solo evidencia -->
       <div class="field">
-        <label for="numeroFactura">Número de Factura <span class="req">*</span></label>
-        <input type="text" id="numeroFactura" name="numeroFactura" placeholder="001-001-00000018" maxlength="16" inputmode="numeric" required>
-        <span class="hint">Formato: 3 dígitos - 3 dígitos - 8 dígitos</span>
-        <span class="error-msg" id="err-numeroFactura">Formato inválido. Usá: 000-000-00000000</span>
+        <label>¿Ya tenés los datos de la factura? <span class="req">*</span></label>
+        <div class="modo-group" id="modoGroup">
+          <label class="modo-option">
+            <input type="radio" name="modo" value="completo" checked>
+            <span class="modo-option-label">Sí, cargar factura completa</span>
+            <span class="modo-option-hint">Razón social, N° factura, monto y fotos</span>
+          </label>
+          <label class="modo-option">
+            <input type="radio" name="modo" value="evidencia">
+            <span class="modo-option-label">Aún no, solo evidencia</span>
+            <span class="modo-option-hint">Guardo la foto para completar después</span>
+          </label>
+        </div>
       </div>
 
-      <!-- Fecha -->
+      <!-- Fecha (siempre visible) -->
       <div class="field">
         <label for="fechaFactura">Fecha de la Factura <span class="req">*</span></label>
         <input type="date" id="fechaFactura" name="fechaFactura" required>
+        <span class="hint">Define en qué carpeta de mes se guarda.</span>
         <span class="error-msg" id="err-fechaFactura">Seleccioná una fecha.</span>
       </div>
 
-      <!-- Razon Social -->
-      <div class="field">
-        <label for="razonSocial">Razón Social <span class="req">*</span></label>
-        <input type="text" id="razonSocial" name="razonSocial" placeholder="NOMBRE DE LA EMPRESA S.A." required>
-        <span class="error-msg" id="err-razonSocial">Ingresá la razón social.</span>
-      </div>
+      <!-- ================= MODO COMPLETO ================= -->
+      <div class="conditional-section visible" id="seccionCompleto">
 
-      <!-- Tipo Impuesto -->
-      <div class="field">
-        <label for="tipoImpuesto">Tipo de Impuesto <span class="req">*</span></label>
-        <select id="tipoImpuesto" name="tipoImpuesto" required>
-          <option value="" disabled selected>Seleccioná una opción</option>
-          <option value="Exenta">Exenta</option>
-          <option value="IVA 10%">IVA 10%</option>
-          <option value="IVA 5%">IVA 5%</option>
-          <option value="Combinado">Combinado</option>
-        </select>
-        <span class="error-msg" id="err-tipoImpuesto">Seleccioná el tipo de impuesto.</span>
-      </div>
-
-      <!-- Montos (se despliegan según el Tipo de Impuesto) -->
-      <div class="montos-wrap" id="montosWrap">
-
-        <div class="field monto-field" id="field-montoExenta" data-monto>
-          <label for="montoExenta">Monto Exento (Gs.) <span class="req">*</span></label>
-          <input type="text" id="montoExenta" name="montoExenta" placeholder="0" inputmode="numeric">
-          <span class="error-msg" id="err-montoExenta">Ingresá el monto exento.</span>
+        <!-- Razon Social -->
+        <div class="field">
+          <label for="razonSocial">Razón Social <span class="req">*</span></label>
+          <input type="text" id="razonSocial" name="razonSocial" placeholder="NOMBRE DE LA EMPRESA S.A.">
+          <span class="error-msg" id="err-razonSocial">Ingresá la razón social.</span>
         </div>
 
-        <div class="field monto-field" id="field-montoIva10" data-monto>
-          <label for="montoIva10">Monto Gravado IVA 10% (Gs.) <span class="req">*</span></label>
-          <input type="text" id="montoIva10" name="montoIva10" placeholder="0" inputmode="numeric">
-          <span class="error-msg" id="err-montoIva10">Ingresá el monto gravado al 10%.</span>
+        <!-- Numero de Factura -->
+        <div class="field">
+          <label for="numeroFactura">Número de Factura <span class="req">*</span></label>
+          <input type="text" id="numeroFactura" name="numeroFactura" placeholder="001-002-0155824" maxlength="30">
+          <span class="hint">Formato estándar: 000-000-0000000. Si es una factura tipo Bolt (con letras), escribila tal cual viene, sin máscara.</span>
+          <span class="error-msg" id="err-numeroFactura">Ingresá el número de factura.</span>
         </div>
 
-        <div class="field monto-field" id="field-montoIva5" data-monto>
-          <label for="montoIva5">Monto Gravado IVA 5% (Gs.) <span class="req">*</span></label>
-          <input type="text" id="montoIva5" name="montoIva5" placeholder="0" inputmode="numeric">
-          <span class="error-msg" id="err-montoIva5">Ingresá el monto gravado al 5%.</span>
-        </div>
-
-      </div>
-
-      <!-- Foto Factura -->
-      <div class="field">
-        <label>Foto de la Factura <span class="req">*</span></label>
-        <div class="capture-box" id="box-fotoFactura">
-          <div class="capture-row">
-            <button type="button" class="btn-capture" id="btn-cam-factura">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l2-2h6l2 2h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>
-              Tomar foto
-            </button>
-            <button type="button" class="btn-capture" id="btn-file-factura">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>
-              Subir archivo
-            </button>
+        <!-- Exenta de IVA -->
+        <div class="field">
+          <label>Exenta de IVA <span class="req">*</span></label>
+          <div class="toggle-group" id="exentaIvaGroup">
+            <label class="toggle-btn"><input type="radio" name="exentaIva" value="SI"><span>Sí</span></label>
+            <label class="toggle-btn"><input type="radio" name="exentaIva" value="NO"><span>No</span></label>
           </div>
-          <input type="file" id="input-cam-factura" accept="image/*" capture="environment">
-          <input type="file" id="input-file-factura" accept="image/*">
-          <div class="preview" id="preview-fotoFactura">
-            <img id="img-fotoFactura" src="" alt="Vista previa factura">
-            <span class="file-tag">Cargada</span>
-            <button type="button" class="remove-btn" data-target="fotoFactura">✕</button>
-          </div>
+          <span class="error-msg" id="err-exentaIva">Indicá si la factura es exenta de IVA.</span>
         </div>
-        <span class="error-msg" id="err-fotoFactura">Adjuntá la foto de la factura.</span>
+
+        <!-- Monto (se despliega tras elegir Exenta de IVA) -->
+        <div class="field" id="field-monto" style="display:none;">
+          <label for="monto">Monto de la Factura (Gs.) <span class="req">*</span></label>
+          <input type="text" id="monto" name="monto" placeholder="0" inputmode="numeric">
+          <span class="error-msg" id="err-monto">Ingresá el monto de la factura.</span>
+        </div>
+
+        <!-- Foto Factura -->
+        <div class="field">
+          <label>Foto de la Factura <span class="req">*</span></label>
+          <div class="capture-box" id="box-fotoFactura">
+            <div class="capture-row">
+              <button type="button" class="btn-capture" id="btn-cam-factura">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l2-2h6l2 2h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>
+                Tomar foto
+              </button>
+              <button type="button" class="btn-capture" id="btn-file-factura">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>
+                Subir archivo
+              </button>
+            </div>
+            <input type="file" id="input-cam-factura" accept="image/*" capture="environment">
+            <input type="file" id="input-file-factura" accept="image/*">
+            <div class="preview" id="preview-fotoFactura">
+              <img id="img-fotoFactura" src="" alt="Vista previa factura">
+              <span class="file-tag">Cargada</span>
+              <button type="button" class="remove-btn" data-target="fotoFactura">✕</button>
+            </div>
+          </div>
+          <span class="error-msg" id="err-fotoFactura">Adjuntá la foto de la factura.</span>
+        </div>
+
       </div>
 
-      <!-- Foto Evidencia -->
-      <div class="field">
+      <!-- ================= MODO EVIDENCIA ================= -->
+      <div class="conditional-section" id="seccionEvidencia">
+
+        <div class="field">
+          <label for="nombreObservacion">Nombre / Observación <span class="req">*</span></label>
+          <input type="text" id="nombreObservacion" name="nombreObservacion" placeholder="Ej: Bolt 15-07 sin factura aun">
+          <span class="hint">Se usa como nombre del archivo en Drive, para encontrarlo fácil después.</span>
+          <span class="error-msg" id="err-nombreObservacion">Escribí un nombre u observación.</span>
+        </div>
+
+      </div>
+
+      <!-- Foto Evidencia (se oculta para TRANSPORT en modo completo) -->
+      <div class="field" id="field-fotoEvidenciaWrap">
         <label>Foto de la Evidencia <span class="req">*</span></label>
         <div class="capture-box" id="box-fotoEvidencia">
           <div class="capture-row">
@@ -585,7 +466,7 @@
       </div>
 
       <button type="submit" class="submit-btn" id="submitBtn">
-        <span class="btn-label">Enviar factura</span>
+        <span class="btn-label">Enviar</span>
         <span class="spinner"></span>
       </button>
 
@@ -595,9 +476,9 @@
       <div class="success-icon">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12l5 5L20 6"/></svg>
       </div>
-      <h2>Factura registrada</h2>
-      <p>Las imágenes se guardaron correctamente en la carpeta de Drive.</p>
-      <div class="folio" id="folioDisplay">001-001-00000018</div>
+      <h2 id="successTitle">Factura registrada</h2>
+      <p id="successText">Las imágenes se guardaron correctamente en la carpeta de Drive.</p>
+      <div class="folio" id="folioDisplay">2026 / JULIO / CRM / 001-002-0155824</div>
       <br>
       <button type="button" class="new-btn" id="newBtn">Cargar otra factura</button>
     </div>
@@ -610,8 +491,6 @@
 <script>
 /* =========================================================
    CONFIGURACIÓN
-   Reemplazá esta URL por la de tu Web App de Apps Script
-   (Implementar > Nueva implementación > Aplicación web)
 ========================================================= */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwV0AyHqAie3v-xBp3wGRKOJQtWZjBxDuHfzQoWzFW5bfP_IrZWFUUFmeN8d3_7UOzw/exec";
 
@@ -620,19 +499,70 @@ const submitBtn = document.getElementById('submitBtn');
 const statusBanner = document.getElementById('statusBanner');
 const statusText = document.getElementById('statusText');
 const successCard = document.getElementById('successCard');
+const successTitle = document.getElementById('successTitle');
+const successText = document.getElementById('successText');
 const folioDisplay = document.getElementById('folioDisplay');
 
 const images = { fotoFactura: null, fotoEvidencia: null };
 
-/* ---------- Máscara Número de Factura: 000-000-00000000 ---------- */
+/* ---------- Modo: completo vs evidencia ---------- */
+const seccionCompleto = document.getElementById('seccionCompleto');
+const seccionEvidencia = document.getElementById('seccionEvidencia');
+
+function getModo(){
+  const checked = document.querySelector('input[name="modo"]:checked');
+  return checked ? checked.value : 'completo';
+}
+
+function updateModoVisibility(){
+  const modo = getModo();
+  const esCompleto = modo === 'completo';
+  seccionCompleto.classList.toggle('visible', esCompleto);
+  seccionEvidencia.classList.toggle('visible', !esCompleto);
+
+  // Botón de foto de factura: solo aplica en modo completo (ya vive dentro de seccionCompleto).
+  // Limpiar validaciones de la sección que se oculta.
+  if (esCompleto) {
+    document.getElementById('err-nombreObservacion').classList.remove('show');
+    document.getElementById('nombreObservacion').classList.remove('invalid');
+  } else {
+    ['razonSocial','numeroFactura','monto'].forEach(id => {
+      document.getElementById(id).classList.remove('invalid');
+      document.getElementById('err-' + id).classList.remove('show');
+    });
+    document.getElementById('exentaIvaGroup').classList.remove('invalid');
+    document.getElementById('err-exentaIva').classList.remove('show');
+    document.getElementById('box-fotoFactura').classList.remove('invalid');
+    document.getElementById('err-fotoFactura').classList.remove('show');
+  }
+}
+
+document.querySelectorAll('input[name="modo"]').forEach(el => {
+  el.addEventListener('change', () => {
+    updateModoVisibility();
+    updateFotoEvidenciaVisibility();
+  });
+});
+
+/* ---------- Número de Factura: máscara inteligente ----------
+   - Si el usuario escribe solo dígitos, se auto-formatea 000-000-0000000
+   - Si en algún momento escribe una letra (ej. facturas tipo Bolt), se
+     deja de aplicar la máscara para que pueda escribir libremente.
+------------------------------------------------------------- */
 const numeroInput = document.getElementById('numeroFactura');
 numeroInput.addEventListener('input', () => {
-  let digits = numeroInput.value.replace(/\D/g, '').slice(0, 14);
-  let out = '';
-  if (digits.length > 0) out += digits.slice(0, 3);
-  if (digits.length > 3) out += '-' + digits.slice(3, 6);
-  if (digits.length > 6) out += '-' + digits.slice(6, 14);
-  numeroInput.value = out;
+  const raw = numeroInput.value;
+  const hasLetters = /[A-Za-z]/.test(raw);
+
+  if (!hasLetters) {
+    let digits = raw.replace(/\D/g, '').slice(0, 13); // 3+3+7 = 13 dígitos
+    let out = '';
+    if (digits.length > 0) out += digits.slice(0, 3);
+    if (digits.length > 3) out += '-' + digits.slice(3, 6);
+    if (digits.length > 6) out += '-' + digits.slice(6, 13);
+    numeroInput.value = out;
+  }
+  // Si tiene letras, se deja tal cual lo escribió (formato libre tipo Bolt).
   validateField('numeroFactura');
 });
 
@@ -643,6 +573,24 @@ razonInput.addEventListener('input', () => {
   razonInput.value = razonInput.value.toUpperCase();
   razonInput.setSelectionRange(pos, pos);
   validateField('razonSocial');
+});
+
+/* ---------- Exenta de IVA: despliega el campo Monto ---------- */
+const montoField = document.getElementById('field-monto');
+document.querySelectorAll('input[name="exentaIva"]').forEach(el => {
+  el.addEventListener('change', () => {
+    montoField.style.display = 'flex';
+    document.getElementById('exentaIvaGroup').classList.remove('invalid');
+    document.getElementById('err-exentaIva').classList.remove('show');
+  });
+});
+
+/* ---------- Monto: formato con separador de miles ---------- */
+const montoInput = document.getElementById('monto');
+montoInput.addEventListener('input', () => {
+  const digits = montoInput.value.replace(/\D/g, '');
+  montoInput.value = digits ? Number(digits).toLocaleString('es-PY') : '';
+  validateField('monto');
 });
 
 /* ---------- Captura / carga de imágenes ---------- */
@@ -678,7 +626,6 @@ document.querySelectorAll('.remove-btn').forEach(btn => {
     images[key] = null;
     document.getElementById('preview-' + key).classList.remove('show');
     document.getElementById('box-' + key).classList.remove('has-image');
-    document.getElementById('input-cam-' + key.replace('foto','').toLowerCase()); // no-op safety
     document.getElementById('img-' + key).src = '';
   });
 });
@@ -686,18 +633,21 @@ document.querySelectorAll('.remove-btn').forEach(btn => {
 setupCapture('fotoFactura', 'btn-cam-factura', 'btn-file-factura', 'input-cam-factura', 'input-file-factura');
 setupCapture('fotoEvidencia', 'btn-cam-evidencia', 'btn-file-evidencia', 'input-cam-evidencia', 'input-file-evidencia');
 
-/* ---------- Validación ---------- */
-const NUM_FACTURA_REGEX = /^\d{3}-\d{3}-\d{8}$/;
-
+/* ---------- Validación de campos de texto ---------- */
 function validateField(id){
   const el = document.getElementById(id);
   const errEl = document.getElementById('err-' + id);
   let valid = true;
 
-  if (id === 'numeroFactura') valid = NUM_FACTURA_REGEX.test(el.value.trim());
+  if (id === 'numeroFactura') {
+    const val = el.value.trim();
+    const hasLetters = /[A-Za-z]/.test(val);
+    valid = hasLetters ? val.length > 0 : /^\d{3}-\d{3}-\d{7}$/.test(val);
+  }
   if (id === 'fechaFactura') valid = !!el.value;
   if (id === 'razonSocial') valid = el.value.trim().length > 0;
-  if (id === 'tipoImpuesto') valid = !!el.value;
+  if (id === 'nombreObservacion') valid = el.value.trim().length > 0;
+  if (id === 'monto') valid = Number(el.value.replace(/\D/g, '')) > 0;
 
   el.classList.toggle('invalid', !valid);
   el.classList.toggle('valid', valid && el.value);
@@ -705,94 +655,52 @@ function validateField(id){
   return valid;
 }
 
-['fechaFactura','tipoImpuesto'].forEach(id => {
-  document.getElementById(id).addEventListener('change', () => validateField(id));
-});
+document.getElementById('fechaFactura').addEventListener('change', () => validateField('fechaFactura'));
 
-/* ---------- Montos condicionales según Tipo de Impuesto ---------- */
-const MONTOS_POR_IMPUESTO = {
-  'Exenta': ['montoExenta'],
-  'IVA 10%': ['montoIva10'],
-  'IVA 5%': ['montoIva5'],
-  'Combinado': ['montoExenta', 'montoIva10', 'montoIva5']
-};
-const TODOS_LOS_MONTOS = ['montoExenta', 'montoIva10', 'montoIva5'];
-
-const tipoImpuestoSelect = document.getElementById('tipoImpuesto');
-tipoImpuestoSelect.addEventListener('change', updateMontosVisibility);
-
-function updateMontosVisibility(){
-  const activos = MONTOS_POR_IMPUESTO[tipoImpuestoSelect.value] || [];
-  TODOS_LOS_MONTOS.forEach(id => {
-    const fieldEl = document.getElementById('field-' + id);
-    const inputEl = document.getElementById(id);
-    const isActive = activos.includes(id);
-    fieldEl.classList.toggle('visible', isActive);
-    if (!isActive) {
-      inputEl.value = '';
-      inputEl.classList.remove('invalid', 'valid');
-      document.getElementById('err-' + id).classList.remove('show');
-    }
-  });
-}
-
-/* Formato con separador de miles (Gs.) mientras se escribe */
-TODOS_LOS_MONTOS.forEach(id => {
-  const input = document.getElementById(id);
-  input.addEventListener('input', () => {
-    const digits = input.value.replace(/\D/g, '');
-    input.value = digits ? Number(digits).toLocaleString('es-PY') : '';
-    validateMonto(id);
-  });
-});
-
-function validateMonto(id){
-  const fieldEl = document.getElementById('field-' + id);
-  if (!fieldEl.classList.contains('visible')) return true; // no aplica
-  const input = document.getElementById(id);
-  const errEl = document.getElementById('err-' + id);
-  const rawValue = Number(input.value.replace(/\D/g, ''));
-  const valid = rawValue > 0;
-  input.classList.toggle('invalid', !valid);
-  input.classList.toggle('valid', valid);
-  errEl.classList.toggle('show', !valid);
-  return valid;
-}
-
-function validateAllMontos(){
-  const activos = MONTOS_POR_IMPUESTO[tipoImpuestoSelect.value] || [];
-  return activos.every(id => validateMonto(id));
-}
-
-function getMontos(){
-  const activos = MONTOS_POR_IMPUESTO[tipoImpuestoSelect.value] || [];
-  const result = {};
-  activos.forEach(id => {
-    result[id] = Number(document.getElementById(id).value.replace(/\D/g, '')) || 0;
-  });
-  return result;
-}
-
+/* ---------- Validación de grupos (chips / toggles) ---------- */
 function getTipoGasto(){
   const checked = document.querySelector('input[name="tipoGasto"]:checked');
   return checked ? checked.value : '';
 }
-
 function validateTipoGasto(){
   const valid = !!getTipoGasto();
   document.getElementById('tipoGastoGroup').classList.toggle('invalid', !valid);
   document.getElementById('err-tipoGasto').classList.toggle('show', !valid);
   return valid;
 }
-
 document.querySelectorAll('input[name="tipoGasto"]').forEach(el => {
-  el.addEventListener('change', validateTipoGasto);
+  el.addEventListener('change', () => {
+    validateTipoGasto();
+    updateFotoEvidenciaVisibility();
+  });
 });
 
-function validateImage(key){
-  const valid = !!images[key];
-  document.getElementById('box-' + key).classList.toggle('invalid', !valid);
-  document.getElementById('err-' + key).classList.toggle('show', !valid);
+/* ---------- Foto de Evidencia: no es necesaria para TRANSPORT (modo completo) ---------- */
+const fotoEvidenciaWrap = document.getElementById('field-fotoEvidenciaWrap');
+
+function shouldSkipFotoEvidencia(){
+  return getModo() === 'completo' && getTipoGasto() === 'TRANSPORT';
+}
+
+function updateFotoEvidenciaVisibility(){
+  const skip = shouldSkipFotoEvidencia();
+  fotoEvidenciaWrap.style.display = skip ? 'none' : 'flex';
+  if (skip) {
+    images.fotoEvidencia = null;
+    document.getElementById('preview-fotoEvidencia').classList.remove('show');
+    document.getElementById('box-fotoEvidencia').classList.remove('has-image', 'invalid');
+    document.getElementById('err-fotoEvidencia').classList.remove('show');
+  }
+}
+
+function getExentaIva(){
+  const checked = document.querySelector('input[name="exentaIva"]:checked');
+  return checked ? checked.value : '';
+}
+function validateExentaIva(){
+  const valid = !!getExentaIva();
+  document.getElementById('exentaIvaGroup').classList.toggle('invalid', !valid);
+  document.getElementById('err-exentaIva').classList.toggle('show', !valid);
   return valid;
 }
 
@@ -800,47 +708,64 @@ function showBanner(type, message){
   statusBanner.className = 'banner ' + type + ' show';
   statusText.textContent = message;
 }
-function hideBanner(){
-  statusBanner.className = 'banner';
-}
+function hideBanner(){ statusBanner.className = 'banner'; }
 
 /* ---------- Envío ---------- */
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   hideBanner();
 
+  const modo = getModo();
   const validGasto = validateTipoGasto();
-  const validNumero = validateField('numeroFactura');
   const validFecha = validateField('fechaFactura');
-  const validRazon = validateField('razonSocial');
-  const validImpuesto = validateField('tipoImpuesto');
-  const validMontos = validateAllMontos();
-  const validFactura = validateImage('fotoFactura');
-  const validEvidencia = validateImage('fotoEvidencia');
+  let allValid = validGasto && validFecha;
+  let payload = null;
 
-  if (!(validGasto && validNumero && validFecha && validRazon && validImpuesto && validMontos && validFactura && validEvidencia)) {
+  if (modo === 'completo') {
+    const validRazon = validateField('razonSocial');
+    const validNumero = validateField('numeroFactura');
+    const validExenta = validateExentaIva();
+    const validMonto = validateField('monto');
+    const validFactura = validateImage('fotoFactura');
+    const skipEvidencia = shouldSkipFotoEvidencia();
+    const validEvidencia = skipEvidencia ? true : validateImage('fotoEvidencia');
+
+    allValid = allValid && validRazon && validNumero && validExenta && validMonto && validFactura && validEvidencia;
+
+    if (allValid) {
+      payload = {
+        modo: 'completo',
+        tipoGasto: getTipoGasto(),
+        fechaFactura: document.getElementById('fechaFactura').value,
+        razonSocial: razonInput.value.trim(),
+        numeroFactura: numeroInput.value.trim(),
+        exentaIva: getExentaIva(),
+        monto: Number(montoInput.value.replace(/\D/g, '')) || 0,
+        fotoFactura: images.fotoFactura,
+        fotoEvidencia: skipEvidencia ? null : images.fotoEvidencia
+      };
+    }
+  } else {
+    const validNombre = validateField('nombreObservacion');
+    const validEvidencia = validateImage('fotoEvidencia');
+
+    allValid = allValid && validNombre && validEvidencia;
+
+    if (allValid) {
+      payload = {
+        modo: 'evidencia',
+        tipoGasto: getTipoGasto(),
+        fechaFactura: document.getElementById('fechaFactura').value,
+        nombreObservacion: document.getElementById('nombreObservacion').value.trim(),
+        fotoEvidencia: images.fotoEvidencia
+      };
+    }
+  }
+
+  if (!allValid) {
     showBanner('error', 'Revisá los campos marcados en rojo antes de enviar.');
     return;
   }
-
-  if (SCRIPT_URL.includes('TU_ID_DE_IMPLEMENTACION')) {
-    showBanner('error', 'Falta configurar SCRIPT_URL con la URL de tu Web App de Apps Script.');
-    return;
-  }
-
-  const montos = getMontos();
-  const payload = {
-    tipoGasto: getTipoGasto(),
-    numeroFactura: numeroInput.value.trim(),
-    fechaFactura: document.getElementById('fechaFactura').value,
-    razonSocial: razonInput.value.trim(),
-    tipoImpuesto: document.getElementById('tipoImpuesto').value,
-    montoExenta: montos.montoExenta || 0,
-    montoIva10: montos.montoIva10 || 0,
-    montoIva5: montos.montoIva5 || 0,
-    fotoFactura: images.fotoFactura,
-    fotoEvidencia: images.fotoEvidencia
-  };
 
   submitBtn.disabled = true;
   submitBtn.classList.add('loading');
@@ -848,7 +773,6 @@ form.addEventListener('submit', async (e) => {
   try {
     const res = await fetch(SCRIPT_URL, {
       method: 'POST',
-      // text/plain avoids a CORS preflight against Apps Script
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     });
@@ -856,10 +780,17 @@ form.addEventListener('submit', async (e) => {
 
     if (data.status === 'ok') {
       form.style.display = 'none';
-      folioDisplay.textContent = payload.numeroFactura;
+      if (modo === 'completo') {
+        successTitle.textContent = 'Factura registrada';
+        successText.textContent = 'Las imágenes se guardaron correctamente en la carpeta de Drive.';
+      } else {
+        successTitle.textContent = 'Evidencia guardada';
+        successText.textContent = 'La foto se guardó en la carpeta de evidencia. Podrás completar los datos de la factura más adelante.';
+      }
+      folioDisplay.textContent = data.ruta || '';
       successCard.classList.add('show');
     } else {
-      showBanner('error', data.message || 'Ocurrió un error al guardar la factura.');
+      showBanner('error', data.message || 'Ocurrió un error al guardar la información.');
     }
   } catch (err) {
     showBanner('error', 'No se pudo conectar con el servidor. Intentá nuevamente.');
@@ -869,11 +800,23 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
+function validateImage(key){
+  const valid = !!images[key];
+  document.getElementById('box-' + key).classList.toggle('invalid', !valid);
+  document.getElementById('err-' + key).classList.toggle('show', !valid);
+  return valid;
+}
+
 document.getElementById('newBtn').addEventListener('click', () => {
   form.reset();
   document.querySelectorAll('input[name="tipoGasto"]').forEach(el => el.checked = false);
   document.getElementById('tipoGastoGroup').classList.remove('invalid');
-  updateMontosVisibility();
+  document.querySelectorAll('input[name="exentaIva"]').forEach(el => el.checked = false);
+  document.getElementById('exentaIvaGroup').classList.remove('invalid');
+  montoField.style.display = 'none';
+  updateModoVisibility();
+  updateFotoEvidenciaVisibility();
+
   images.fotoFactura = null;
   images.fotoEvidencia = null;
   ['fotoFactura','fotoEvidencia'].forEach(key => {
@@ -886,6 +829,10 @@ document.getElementById('newBtn').addEventListener('click', () => {
   successCard.classList.remove('show');
   form.style.display = 'flex';
 });
+
+// Estado inicial
+updateModoVisibility();
+updateFotoEvidenciaVisibility();
 </script>
 
 </body>

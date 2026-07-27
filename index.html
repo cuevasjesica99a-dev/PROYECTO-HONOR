@@ -245,6 +245,15 @@
     background:rgba(23,114,69,0.92); color:#fff; font-size:10.5px; font-weight:700;
     letter-spacing:0.04em; padding:3px 8px; border-radius:99px; text-transform:uppercase;
   }
+  .pdf-badge{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:8px; padding:28px 16px; color:var(--amber);
+  }
+  .pdf-badge svg{ width:34px; height:34px; }
+  .pdf-badge .pdf-name{
+    font-size:12.5px; font-weight:600; color:var(--ink-soft);
+    max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
 
   .submit-btn{
     margin-top:4px; width:100%; padding:14px; border-radius:10px; border:none;
@@ -404,6 +413,7 @@
         <!-- Foto Factura -->
         <div class="field">
           <label>Foto de la Factura <span class="req">*</span></label>
+          <span class="hint">Podés subir una foto o, si es factura electrónica, un PDF.</span>
           <div class="capture-box" id="box-fotoFactura">
             <div class="capture-row">
               <button type="button" class="btn-capture" id="btn-cam-factura">
@@ -412,13 +422,17 @@
               </button>
               <button type="button" class="btn-capture" id="btn-file-factura">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>
-                Subir archivo
+                Subir foto o PDF
               </button>
             </div>
             <input type="file" id="input-cam-factura" accept="image/*" capture="environment">
-            <input type="file" id="input-file-factura" accept="image/*">
+            <input type="file" id="input-file-factura" accept="image/*,application/pdf">
             <div class="preview" id="preview-fotoFactura">
               <img id="img-fotoFactura" src="" alt="Vista previa factura">
+              <div class="pdf-badge" id="pdfbadge-fotoFactura" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                <span class="pdf-name" id="pdfname-fotoFactura"></span>
+              </div>
               <span class="file-tag">Cargada</span>
               <button type="button" class="remove-btn" data-target="fotoFactura">✕</button>
             </div>
@@ -492,7 +506,7 @@
 /* =========================================================
    CONFIGURACIÓN
 ========================================================= */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwV0AyHqAie3v-xBp3wGRKOJQtWZjBxDuHfzQoWzFW5bfP_IrZWFUUFmeN8d3_7UOzw/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOl-nIAFqQx-Sehf5_A8vM9fzIHh2GAJzsAnYaS5lHZY6yb2Xjql40_nbtzlcZ_1R0gg/exec";
 
 const form = document.getElementById('facturaForm');
 const submitBtn = document.getElementById('submitBtn');
@@ -608,10 +622,26 @@ function setupCapture(key, camBtnId, fileBtnId, camInputId, fileInputId){
 
 function handleImage(key, file){
   if (!file) return;
+  const isPdf = file.type === 'application/pdf';
   const reader = new FileReader();
   reader.onload = (e) => {
     images[key] = { dataUrl: e.target.result, name: file.name, type: file.type };
-    document.getElementById('img-' + key).src = e.target.result;
+    const imgEl = document.getElementById('img-' + key);
+    const pdfBadge = document.getElementById('pdfbadge-' + key);
+
+    if (isPdf) {
+      imgEl.style.display = 'none';
+      imgEl.src = '';
+      if (pdfBadge) {
+        pdfBadge.style.display = 'flex';
+        document.getElementById('pdfname-' + key).textContent = file.name;
+      }
+    } else {
+      imgEl.style.display = 'block';
+      imgEl.src = e.target.result;
+      if (pdfBadge) pdfBadge.style.display = 'none';
+    }
+
     document.getElementById('preview-' + key).classList.add('show');
     document.getElementById('box-' + key).classList.add('has-image');
     document.getElementById('box-' + key).classList.remove('invalid');
@@ -626,7 +656,10 @@ document.querySelectorAll('.remove-btn').forEach(btn => {
     images[key] = null;
     document.getElementById('preview-' + key).classList.remove('show');
     document.getElementById('box-' + key).classList.remove('has-image');
+    document.getElementById('img-' + key).style.display = 'block';
     document.getElementById('img-' + key).src = '';
+    const pdfBadge = document.getElementById('pdfbadge-' + key);
+    if (pdfBadge) pdfBadge.style.display = 'none';
   });
 });
 
@@ -822,6 +855,9 @@ document.getElementById('newBtn').addEventListener('click', () => {
   ['fotoFactura','fotoEvidencia'].forEach(key => {
     document.getElementById('preview-' + key).classList.remove('show');
     document.getElementById('box-' + key).classList.remove('has-image','invalid');
+    document.getElementById('img-' + key).style.display = 'block';
+    const pdfBadge = document.getElementById('pdfbadge-' + key);
+    if (pdfBadge) pdfBadge.style.display = 'none';
   });
   document.querySelectorAll('input,select').forEach(el => el.classList.remove('valid','invalid'));
   document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('show'));

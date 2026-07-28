@@ -412,7 +412,7 @@
 
         <!-- Foto Factura -->
         <div class="field">
-          <label>Foto de la Factura <span class="req">*</span></label>
+          <label>Foto de la Factura <span class="hint">(opcional)</span></label>
           <span class="hint">Podés subir una foto o, si es factura electrónica, un PDF.</span>
           <div class="capture-box" id="box-fotoFactura">
             <div class="capture-row">
@@ -456,7 +456,7 @@
 
       <!-- Foto Evidencia (se oculta para TRANSPORT en modo completo) -->
       <div class="field" id="field-fotoEvidenciaWrap">
-        <label>Foto de la Evidencia <span class="req">*</span></label>
+        <label>Foto de la Evidencia <span class="hint">(opcional)</span></label>
         <div class="capture-box" id="box-fotoEvidencia">
           <div class="capture-row">
             <button type="button" class="btn-capture" id="btn-cam-evidencia">
@@ -834,10 +834,10 @@ form.addEventListener('submit', async (e) => {
 });
 
 function validateImage(key){
-  const valid = !!images[key];
-  document.getElementById('box-' + key).classList.toggle('invalid', !valid);
-  document.getElementById('err-' + key).classList.toggle('show', !valid);
-  return valid;
+  // Las fotos son opcionales: nunca bloquean el envío.
+  document.getElementById('box-' + key).classList.remove('invalid');
+  document.getElementById('err-' + key).classList.remove('show');
+  return true;
 }
 
 document.getElementById('newBtn').addEventListener('click', () => {

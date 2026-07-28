@@ -708,11 +708,12 @@ document.querySelectorAll('input[name="tipoGasto"]').forEach(el => {
   });
 });
 
-/* ---------- Foto de Evidencia: no es necesaria para TRANSPORT (modo completo) ---------- */
+/* ---------- Foto de Evidencia: no es necesaria para TRANSPORT ni SHIPPING (modo completo) ---------- */
 const fotoEvidenciaWrap = document.getElementById('field-fotoEvidenciaWrap');
+const TIPOS_SIN_EVIDENCIA = ['TRANSPORT', 'SHIPPING'];
 
 function shouldSkipFotoEvidencia(){
-  return getModo() === 'completo' && getTipoGasto() === 'TRANSPORT';
+  return getModo() === 'completo' && TIPOS_SIN_EVIDENCIA.includes(getTipoGasto());
 }
 
 function updateFotoEvidenciaVisibility(){
